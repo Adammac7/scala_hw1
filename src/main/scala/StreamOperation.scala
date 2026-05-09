@@ -87,8 +87,13 @@ class StreamOperation() {
     // hint: flatMapping, apply distinct,
     // then use either sorted, sortBy, or sortWith for sorting
     // then convert to Vector to return
-    
-    Vector.empty // replace this with your implementation
+    val flat = numbers_2d
+    flat
+      .flatten
+      .distinct
+      .sortWith((a,b) => a > b)
+      .toVector
+
   }
 
   // Java
@@ -139,10 +144,10 @@ class StreamOperation() {
     // if there are numbers in the flattened collection, use max method;
     // otherwise, return None, note using max on an empty array will
     // throw an exception
+    val flat = numbers_2d.flatten
+    if(flat.nonEmpty) Some(flat.max)
+    else None
 
-    // refer to averageOfAllElements_s on dealing with empty row / vector
-
-    Option.empty // replace this with your implementation
   }
 
   // Java
@@ -191,18 +196,17 @@ class StreamOperation() {
     // combine the approach in sumOfEachRow_s and averageOfAllElements_s
     // note there could be empty vectors and using max on an empty vector
     // will result in exception
-
     numbers_2d
       .map(vector => {
-        vector.nonEmpty match
-        {
+        vector.nonEmpty match {
           case true => Some(vector.max)
           case false => None
         }
       }).toVector
-  }
 
-  // Java
+
+
+    // Java
   def averageOfEachRow(): List[Double] = {
     numbers
        .stream()
@@ -219,13 +223,24 @@ class StreamOperation() {
    * @return Array of average of each vector in the array
    *         Note: each vector could be empty
    * @param
+   * numbers_2d
+   *  .map(vector => {
+   *  vector.nonEmpty match {
+   *  case true  => Some(vector.max)                                                                                                                                                      case false => None
+   *  }
+   *  }).toVector
    * */
   def averageOfEachRow_s : Vector[Option[Double]] = {
     TODO
 
     // see hint in maxInEachRow_s
-
-    Vector.empty // replace this with your implementation
+    numbers_2d
+      .map(vector => {
+      vector.nonEmpty match {
+        case true => Some(vector.sum.toDouble / vector.length )
+        case false => None
+      }
+  }).toVector
   }
 
   /**
@@ -238,14 +253,18 @@ class StreamOperation() {
   def averageOfNumbers_gt_10_EachRow_s : Vector[Option[Double]] = {
 
     TODO
-
     // hint: see implementation approach in maxInEachRow_s
     // add filtering for getting the numbers > 10 in the vector
     // then if there are numbers in the vector bigger than 10,
     //   calculate for average
     //   otherwise, use None
 
-    Vector.empty // replace this with your implementation
+    numbers_2d
+      .map(vector => {
+        val filtered = vector.filter(_ > 10)
+        if( filtered.nonEmpty) Some(filtered.sum.toDouble / filtered.legnth)
+        else None
+  }).toVector
   }
 
   // Java
@@ -324,6 +343,17 @@ class StreamOperation() {
   def max2NumbersInEachRow_s : Vector[Vector[Int]] = {
 
     TODO
+      numbers_2d.so
+
+
+
+      .map(vector => {
+        vector.nonEmpty match {
+          case true => Some(vector.max)
+          case false => None
+        }
+      }).toVector
+
 
     // hint: see implementation approach in maxInEachRow_s
     // sort each row in descending order, then
