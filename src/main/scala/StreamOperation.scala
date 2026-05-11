@@ -33,7 +33,7 @@ class StreamOperation() {
 
   // Add a row (vector) to the 2D array
   // Note: arr argument could be empty vector, Vector.empty[Int]
-  def addNumbers_Arr(vector : Vector[Int]): Unit = {
+  def addNumbers_Arr(vector: Vector[Int]): Unit = {
     numbers_2d += vector
   }
 
@@ -47,19 +47,20 @@ class StreamOperation() {
   }
 
   // Scala
+
   /**
    * @return Sum of all numbers in all rows / vectors in the array
    *
    *         Note: an empty vector would have a sum of zero
    * @param
    * */
-  def sumOfAllElements_s : Int = {
+  def sumOfAllElements_s: Int = {
     numbers_2d
       .flatten.sum // flatMap, then sum
   }
 
   // Java
-  def flatten2DArrayTo1DArray() : List[Int] = {
+  def flatten2DArrayTo1DArray(): List[Int] = {
     numbers
       .stream()
       .flatMap(list => list.stream())
@@ -67,23 +68,22 @@ class StreamOperation() {
   }
 
   // Scala
+
   /**
    * @return Array of distinct numbers from all rows / vectors
-   *
    * @param
    * */
-  def flatten2DArrayTo1DArrayDistinct_s : Vector[Int] = {
+  def flatten2DArrayTo1DArrayDistinct_s: Vector[Int] = {
     // flatMap followed by distinct
     numbers_2d.flatten.distinct.toVector
   }
 
   /**
    * @return Array of distinct numbers in descending order from all rows / vectors
-   *
    * @param
    * */
-  def flatten2DArrayTo1DArrayDistinctSortDescending_s : Vector[Int] = {
-    TODO
+  def flatten2DArrayTo1DArrayDistinctSortDescending_s: Vector[Int] = {
+    //TODO
     // hint: flatMapping, apply distinct,
     // then use either sorted, sortBy, or sortWith for sorting
     // then convert to Vector to return
@@ -91,7 +91,7 @@ class StreamOperation() {
     flat
       .flatten
       .distinct
-      .sortWith((a,b) => a > b)
+      .sortWith((a, b) => a > b)
       .toVector
 
   }
@@ -99,75 +99,75 @@ class StreamOperation() {
   // Java
   def averageOfAllElements(): Double = {
     numbers
-       .stream()
-       .flatMap(list => list.stream())
-       .mapToInt(integer => integer.intValue())
-       .average()
-       .orElse(0)
+      .stream()
+      .flatMap(list => list.stream())
+      .mapToInt(integer => integer.intValue())
+      .average()
+      .orElse(0)
   }
 
   // Scala
+
   /**
    * @return Average of numbers from all rows / vectors
-   *
    * @param
    * */
-  def averageOfAllElements_s : Option[Double] = {
+  def averageOfAllElements_s: Option[Double] = {
     val flattened = numbers_2d.flatten // flatMap
     flattened.length match {
       // Some and None are subclasses of Option
       case 0 => None // length of the combined array is zero
-      case _ => Some (flattened.sum.toDouble / flattened.length)
+      case _ => Some(flattened.sum.toDouble / flattened.length)
     }
   }
 
   // Java
   def maxOfAllElements(): Int = {
     numbers
-       .stream()
-       .flatMap(list => list.stream())
-       .mapToInt(integer => integer.intValue())
-       .max()
-       .orElse(0)
+      .stream()
+      .flatMap(list => list.stream())
+      .mapToInt(integer => integer.intValue())
+      .max()
+      .orElse(0)
   }
 
   // Scala
+
   /**
    * @return max number from all rows / vectors
-   *
    * @param
    * */
-  def maxOfAllElements_s : Option[Int] = {
-    TODO
+  def maxOfAllElements_s: Option[Int] = {
+    //TODO
 
     // hint: first, do flatMapping. After flatmapping:
     // if there are numbers in the flattened collection, use max method;
     // otherwise, return None, note using max on an empty array will
     // throw an exception
     val flat = numbers_2d.flatten
-    if(flat.nonEmpty) Some(flat.max)
+    if (flat.nonEmpty) Some(flat.max)
     else None
 
   }
 
   // Java
   def sumOfEachRow(): List[Int] = {
-     numbers
-       .stream() // since each row is a list or a collection you can invoke stream api on each row
-       .map[Int](list => list.stream()
-         // mapToInt changes Stream<Integer> to IntStream which has built in methods like sum
-         .mapToInt(value => value.intValue())
-         .sum())
-       .collect(Collectors.toList())
+    numbers
+      .stream() // since each row is a list or a collection you can invoke stream api on each row
+      .map[Int](list => list.stream()
+        // mapToInt changes Stream<Integer> to IntStream which has built in methods like sum
+        .mapToInt(value => value.intValue())
+        .sum())
+      .collect(Collectors.toList())
   }
 
   // Scala
+
   /**
    * @return Array of sums of each row / vector
-   *
    * @param
    * */
-  def sumOfEachRow_s : Vector[Int] = {
+  def sumOfEachRow_s: Vector[Int] = {
     numbers_2d
       .map(vector => vector.sum).toVector
   }
@@ -175,22 +175,23 @@ class StreamOperation() {
   // Java
   def maxInEachRow(): List[Int] = {
     numbers
-       .stream()
-       .map[Int](list => list // since each row is a list or a collection you can invoke stream api on each row
-          .stream()
-          .mapToInt(value => value.intValue()) // mapToInt changes Stream<Integer> to IntStream which has built in methods like max
-          .max()
-          .orElse(0))
-       .collect(Collectors.toList())
+      .stream()
+      .map[Int](list => list // since each row is a list or a collection you can invoke stream api on each row
+        .stream()
+        .mapToInt(value => value.intValue()) // mapToInt changes Stream<Integer> to IntStream which has built in methods like max
+        .max()
+        .orElse(0))
+      .collect(Collectors.toList())
   }
 
   // Scala
+
   /**
    * @return Array of max number of each row / vector
    *         Note: each vector could be empty
    * @param
    * */
-  def maxInEachRow_s : Vector[Option[Int]] = {
+  def maxInEachRow_s: Vector[Option[Int]] = {
 
     // hint: use map operation
     // combine the approach in sumOfEachRow_s and averageOfAllElements_s
@@ -203,44 +204,45 @@ class StreamOperation() {
           case false => None
         }
       }).toVector
+  }
 
 
-
-    // Java
+  // Java
   def averageOfEachRow(): List[Double] = {
     numbers
-       .stream()
-       .map[Double](list => list // since each row is a list or a collection you can invoke stream api on each row
-          .stream()
-          .mapToInt(value => value.intValue()) // mapToInt changes Stream<Integer> to IntStream which has built in methods like max
-          .average()
-          .orElse(0))
-       .collect(Collectors.toList())
+      .stream()
+      .map[Double](list => list // since each row is a list or a collection you can invoke stream api on each row
+        .stream()
+        .mapToInt(value => value.intValue()) // mapToInt changes Stream<Integer> to IntStream which has built in methods like max
+        .average()
+        .orElse(0))
+      .collect(Collectors.toList())
   }
 
   // Scala
+
   /**
    * @return Array of average of each vector in the array
    *         Note: each vector could be empty
    * @param
    * numbers_2d
-   *  .map(vector => {
-   *  vector.nonEmpty match {
-   *  case true  => Some(vector.max)                                                                                                                                                      case false => None
-   *  }
-   *  }).toVector
+   * .map(vector => {
+   * vector.nonEmpty match {
+   * case true  => Some(vector.max)                                                                                                                                                      case false => None
+   * }
+   * }).toVector
    * */
-  def averageOfEachRow_s : Vector[Option[Double]] = {
-    TODO
+  def averageOfEachRow_s: Vector[Option[Double]] = {
+    //TODO
 
     // see hint in maxInEachRow_s
     numbers_2d
       .map(vector => {
-      vector.nonEmpty match {
-        case true => Some(vector.sum.toDouble / vector.length )
-        case false => None
-      }
-  }).toVector
+        vector.nonEmpty match {
+          case true => Some(vector.sum.toDouble / vector.length)
+          case false => None
+        }
+      }).toVector
   }
 
   /**
@@ -250,9 +252,9 @@ class StreamOperation() {
    *         Note: each vector could be empty
    * @param
    * */
-  def averageOfNumbers_gt_10_EachRow_s : Vector[Option[Double]] = {
+  def averageOfNumbers_gt_10_EachRow_s: Vector[Option[Double]] = {
 
-    TODO
+    // TODO
     // hint: see implementation approach in maxInEachRow_s
     // add filtering for getting the numbers > 10 in the vector
     // then if there are numbers in the vector bigger than 10,
@@ -261,25 +263,26 @@ class StreamOperation() {
 
     numbers_2d
       .map(vector => {
-        val filtered = vector.filter(_ > 10)
-        if( filtered.nonEmpty) Some(filtered.sum.toDouble / filtered.legnth)
+        val filtered = vector.filter(_ > 10) // filter each sub-array for numbers greater than 10
+        if (filtered.nonEmpty) Some(filtered.sum.toDouble / filtered.length)
         else None
-  }).toVector
+      }).toVector
   }
 
   // Java
   def firstSingleDigitInRow(): List[Int] = {
     numbers
-       .stream()
-       .map[Int](list => list // since each row is a list or a collection you can invoke stream api on each row
-          .stream()
-          .filter(e => e < 10)
-          .findFirst() // return the first element that stream encounters
-          .orElse(0)) // if no element is found return 0
-       .collect(Collectors.toList())
+      .stream()
+      .map[Int](list => list // since each row is a list or a collection you can invoke stream api on each row
+        .stream()
+        .filter(e => e < 10)
+        .findFirst() // return the first element that stream encounters
+        .orElse(0)) // if no element is found return 0
+      .collect(Collectors.toList())
   }
 
   // Scala
+
   /**
    * @return Array of first single digit number (< 10) of each vector
    *         map each vector to the first single digit number (< 10)
@@ -288,9 +291,9 @@ class StreamOperation() {
    *         Note: each vector could be empty
    * @param
    * */
-  def firstSingleDigitInRow_s : Vector[Option[Int]] = {
+  def firstSingleDigitInRow_s: Vector[Option[Int]] = {
 
-    TODO
+    // TODO
 
     // hint: see implementation approach in maxInEachRow_s
     // need to add filtering for getting the numbers < 10 in the vector
@@ -298,87 +301,82 @@ class StreamOperation() {
     //   use take method to grab the first single digit number
     //   otherwise, use None
 
-    Vector.empty // replace this with your implementation
+    numbers_2d
+      .map(vector => {
+        val filtered = vector.filter(_ < 10)
+        if (filtered.nonEmpty) Some(filtered.take(1).head) // takes gives an array of length 1 and head grabs the int value
+        else None
+      }).toVector
+
   }
 
   // Java
   def existRowWithMultipleOf5(): Boolean = {
     numbers
-       .stream()
-       .anyMatch(integers => integers // returns true if any one element passing the condition is found;
-          .stream()
-          .anyMatch(integer => integer % 5 == 0))
+      .stream()
+      .anyMatch(integers => integers // returns true if any one element passing the condition is found;
+        .stream()
+        .anyMatch(integer => integer % 5 == 0))
   }
 
   // Scala
+
   /**
    * @return Boolean, whether any row has a number that is a multiple of 5
-   *
    * @param
    * */
-  def existRowWithMultipleOf5_s : Boolean = {
+  def existRowWithMultipleOf5_s: Boolean = {
     numbers_2d
       .exists(vector => vector
-         .exists(i => i % 5 == 0))
+        .exists(i => i % 5 == 0))
   }
 
   /**
    * @return Array of all rows that have multiple of 5 number/numbers
-   *
    * @param
    * */
-  def rowsWithMultipleOf5_s : Vector[Vector[Int]] = {
-    TODO
+  def rowsWithMultipleOf5_s: Vector[Vector[Int]] = {
+    //TODO
 
     // hint: use filter and see existRowWithMultipleOf5_s above
-
-    Vector.empty // replace this with your implementation
+      numbers_2d
+        .filter(vector => vector.exists(_ % 5 == 0)).toVector // filter the main vector for elements(vector[Int]) to check for array length % 5 == 0
   }
 
-  /**
-   * @return Array of the max two numbers of row with the max number first
-   *
-   * @param
-   * */
-  def max2NumbersInEachRow_s : Vector[Vector[Int]] = {
+    /**
+     * @return Array of the max two numbers of row with the max number first
+     * @param
+     * */
+    def max2NumbersInEachRow_s: Vector[Vector[Int]] = {
 
-    TODO
-      numbers_2d.so
+      //TODO
+      numbers_2d
+        .map(vector => vector
+          .sortWith((a, b) => a > b) // sort each vector backwards and grab the first two elements
+          .take(2)).toVector
+      // hint: see implementation approach in maxInEachRow_s
+      // sort each row in descending order, then
+      //   use take method to grab the first two numbers
 
+    }
 
+    /**
+     * @return Array of the max two EVEN numbers of row with the max number first
+     * @param
+     * */
+    // map each vector in ArrayBuffer to the biggest 2 even integers in the vector
+    // filter, sort, then take the top 2 integers
+    def max2_EvenNumbersInEachRow_s: Vector[Vector[Int]] = {
 
-      .map(vector => {
-        vector.nonEmpty match {
-          case true => Some(vector.max)
-          case false => None
-        }
-      }).toVector
+      //TODO
 
+      // hint:
+      // filter for all even numbers for each row / vector
+      // then sort in descending order, then
+      // use take method to grab the first two numbers
 
-    // hint: see implementation approach in maxInEachRow_s
-    // sort each row in descending order, then
-    //   use take method to grab the first two numbers
-
-    Vector.empty // replace this with your implementation
-  }
-
-  /**
-   * @return Array of the max two EVEN numbers of row with the max number first
-   *
-   * @param
-   * */
-  // map each vector in ArrayBuffer to the biggest 2 even integers in the vector
-  // filter, sort, then take the top 2 integers
-  def max2_EvenNumbersInEachRow_s : Vector[Vector[Int]] = {
-
-    TODO
-
-    // hint:
-    // filter for all even numbers for each row / vector
-    // then sort in descending order, then
-    // use take method to grab the first two numbers
-
-    Vector.empty // replace this with your implementation
-  }
-
+      numbers_2d
+        .map(vector => vector.filter(_ % 2 == 0).sortWith((a, b) => a > b).take(2) // for each vector, filter out odd numbers then sort backwards to allow take to grab the 2 largest
+        ).toVector
+    }
 }
